@@ -1,125 +1,110 @@
-## Module 4 Homework (2026 Cohort)
+## Module 5 Homework (2026 Cohort)
 
-In this homework, you are required to understand how the system works as a whole, adjust the code accordingly, and interpret the results correctly. The task involves modifying a few lines of code and run the whole notebook to check the results.
+In this homework, you will propose **three distinct stock research ideas** that could become a capstone project or a future investment strategy.
 
-Please use the new workbook [[2026]_Module_04_Colab_Trading_Simulations.ipynb](https://github.com/DataTalksClub/stock-markets-analytics-zoomcamp/blob/main/04-trading-strategy-and-simulation/%5B2026%5D_Module_04_Colab_Trading_Simulations.ipynb) for all tasks. This workbook contains a clean version of the code, with hyperparameter tuning commented out and the best models hard-coded. It should take a few minutes to run on Google Colab. Before solving the problems, make sure you can run the workbook *"as is"*.
+The previous homeworks focused primarily on working with data, building models, and evaluating strategies. This assignment focuses on deciding **what is worth investigating and why**.
 
-**IMPORTANT**: Every time you start a new problem, **make a fresh copy** of the notebook and start from scratch. Do **not** apply edits from previous tasks to the same notebook instance.
+All three questions are exploratory and require free-text answers. No code, trained model, or completed backtest is required.
 
-**HINT**: To avoid data truncation in GitHub’s UI, try one of the following:
-* Open the notebook in [Colab using the GitHub link](https://colab.research.google.com/github/DataTalksClub/stock-markets-analytics-zoomcamp/blob/main/04-trading-strategy-and-simulation/%5B2026%5D_Module_04_Colab_Trading_Simulations.ipynb).
-* Clone the repository locally and open the notebook in Jupyter Notebook.
+### Why this matters
 
+As AI makes software development and machine learning more accessible, standard trading infrastructure becomes easier to reproduce. Someone can copy our shared code with a single `git clone` command.
 
----
-### Question 1: Less Features is More 
+Your contribution comes from the research: asking useful questions, understanding a market or industry, finding relevant data, and developing a testable investment thesis. The ability to generate, evaluate, and refine ideas quickly matters—but speed is useful only when paired with thoughtful reasoning.
 
-**Find the CAGR for the pred10_rf_best_rule_55	using the new setup (with fewer dummy variables).**
+A strong idea connects:
 
+- **An opportunity:** a market, sector, structural change, or recurring behavior worth investigating.
+- **A thesis:** why that opportunity might produce a predictable investment outcome.
+- **Data:** observable evidence that could support or challenge the thesis.
+- **A test:** a practical way to determine whether the idea adds value.
 
-**The idea**: Reducing the number of features can help models perform better. As seen in the lecture, some models (e.g., Logistic Regression, Deep Neural Networks) may underperform due to too many features—especially the numerous dummy variables from exercises and individual stock tickers.
+### What to include in each answer
 
-1) **Redefine the "CATEGORICAL" set.** 
-Remove `ticker` and `month_wom` from the `CATEGORICAL` list *just* before you generate dummies ising the `pd.get_dummies()` function. To check yourself: `df_with_dummies[NUMERICAL+DUMMIES].info()` in the original setup should give 301 features. In the new setup, `df_with_dummies[NUMERICAL+DUMMIES].info()` should show 208 features (about 31% fewer).
+Use the same structure for all three ideas:
 
-2) **Run the entire notebook.** 
-At the end of the notebook (after the bubble chart), check the CAGR for `pred10_rf_best_rule_55` (the best ML predictor has changed). Expected result: The new CAGR should be *slightly higher* than the original one, which was 1.1195.
- 
----
-### Question 2: Most Efficient Random Forest Decision Rule
+1. **Market and scope.** Which country, exchange, sector, or group of stocks would you study? What is your intended investment horizon?
+2. **Investment thesis.** What do you expect to happen, and why? Identify the relevant macroeconomic trend, industry development, or market mechanism.
+3. **Potential edge.** Why might the opportunity be overlooked or slow to appear in prices? What knowledge, data, or interpretation could make your approach useful?
+4. **Data and sources.** Identify specific datasets, indicators, or sources you would investigate. Explain what they measure and how they relate to your thesis. Distinguish sources you have checked from sources you still need to verify.
+5. **Research approach.** Describe the signal, rule, or model you would test and the investment decision it would inform. Explain why this approach fits the idea.
+6. **Validation and risks.** What simple benchmark would you compare against? What evidence would make you reject the idea? Consider data availability, publication delays, transaction costs, liquidity, and other relevant limitations.
 
-**What is the probability threshold for the second-best Random Forest decision rule, if you want to have the number of average trades per day BELOW 5?**
+Be specific. “Use AI to predict stock prices” does not explain an investment thesis. Describe **what information might predict which outcome, over what horizon, and why**.
 
+### Examples of directions to explore
 
-#### **The Idea**
+These are starting points for research, not established profitable strategies:
 
-The goal is to learn how to construct and interpret the `tpr_dataframe` for another model—**Random Forest**—and connect it with financial performance.
+- **Local markets or smaller exchanges:** Investigate whether local-language disclosures, economic releases, or industry statistics provide useful signals for companies receiving limited analyst coverage. Explain why local knowledge could help and whether trading liquidity would support the strategy.
+- **Pairs trading:** Study two economically related companies whose relative prices sometimes diverge. Explain why the relationship should persist, how you would identify a temporary divergence, and what would indicate that the relationship has broken down.
+- **Mean reversion:** Investigate whether sharp price moves following a particular type of event tend to reverse. Explain how you would distinguish a temporary overreaction from a lasting change in the business.
+- **Bioinformatics:** Explore whether research funding, public procurement, or adoption of genomic analysis tools could help explain future demand for listed companies. Identify measurable indicators and the connection to company revenue.
+- **Advertising:** Study whether changes in advertising activity, customer demand, or platform usage could help anticipate revenue changes at advertising businesses.
+- **Gaming:** Investigate whether player activity, reviews, release schedules, or audience engagement could help anticipate company performance—and whether those signals contain information beyond what investors already expect.
 
-In this task, you'll define new predictors using custom probability thresholds ranging from **0.56 to 0.64**, thereby covering the full interval from **0.55 to 0.65** (two threshold-based predictors are already defined, including `pred10_rf_best_rule_55` — the estimator found in Question 1 that works better than the other rules). The objective is to build a dataframe with these decision rules, following the expected pattern:
+A growing industry does not automatically imply attractive stock returns. Explain **what your proposed signal could reveal beyond the growth story itself**.
 
-- **Higher thresholds → Higher precision**
-- **Higher thresholds → Fewer total trades**
+### Make your ideas meaningfully different
 
-However, now you're optimizing not just for ML performance (like precision), but also for **financial results (CAGR)** and **time efficiency (average trades per day)**. These relationships aren’t always straightforward, so experimentation is key.
+Your three submissions should explore different hypotheses. Changing only the ticker, technical indicator, or machine learning algorithm is not enough.
 
+Aim for differences in the underlying economic mechanism, market, data source, or investment horizon. For example, you might combine a local-market information idea, a relative-value strategy, and a sector-specific demand signal.
 
-
-### Steps
-
-0. Make **a fresh copy** of the notebook **from Question 1** (the one with the shortened dummy-variable setup, where the Random Forest with `max_depth=13` and `n_estimators=100` is used). Reuse that notebook as your starting point instead of the original Module 04 notebook — you'll be adding more rules on top of the same model, just with different thresholds.
-
-1. **Construct the `tpr_fpr_dataframe` for the Random Forest classifier**
-
-   - In your code:
-     ```python
-     # Comment out
-     y_pred_test = clf_best.predict_proba(X_test)
-     # Uncomment
-     y_pred_test = rf_best.predict_proba(X_test)
-     ```
-   - The Random Forest model provides a smoother prediction probability distribution  
-     *(see density plot using `sns.histplot(y_pred_test_class1)`)*.
-   - The `df_scores` dataframe will now reflect Random Forest statistics.
-   - Watch how **TP + FP (total trades)** decreases with higher thresholds.
-   - Examine **precision and recall** at various thresholds:
-     - Precision increases with higher thresholds.
-     - Recall and total trades decrease.
-   - ⚠️ *But beware: higher precision and fewer trades do not always result in better financial returns (CAGR).*
-
-2. **Define new prediction columns for thresholds 0.56 to 0.64**
-
-   Add predictors to cover the full threshold range:
-   - Use names like (where xx and yy and parameters):  
-     `new[predxx_rf_best_rule_yy] =  (y_pred_all_class1_array >= 0.yy).astype(int)`  
-
-   - Continue after existing ones:  
-     `new_df['pred10_rf_best_rule_55'] = (y_pred_all_class1_array >= 0.55).astype(int)`  
-     `new_df['pred11_rf_best_rule_65'] = (y_pred_all_class1_array >= 0.65).astype(int)`
-
-3. **Review the simulation results in `df_sim1_results`**
-
-   - Our current best rule, `pred10_rf_best_rule_55`, delivers a good CAGR but trades slightly **more than 5 times per day on average**. Among the new thresholds you've defined, find the one where **avg. daily investments < 5**, while still achieving the best CAGR possible (close to 1.12) at that trade-off.
-   - It's likely that this rule won't beat `pred10_rf_best_rule_55` on CAGR — only on trade efficiency (fewer trades per day). That's fine: we'll call this the **second-best model**, since it's the best one specifically within the "fewer than 5 trades per day" subspace.
-   - Write down the decision rule threshold of this second-best model.
-
+You may use AI to brainstorm or challenge your reasoning. Your final answers should reflect your own judgment: verify factual claims, explain assumptions, and avoid generic lists of fashionable themes.
 
 ---
-### Question 3: Redefining the Growth Target
 
-**What is the number of trades for the best predictor `pred5_clf_10` (after redefining the target variable)?**
+### Question 1: [Exploratory] Research Idea Number One
 
-Your goal is to adjust how we define the positive-growth target and examine how it affects model performance.
+**Propose one well-reasoned stock research idea using the structure above.**
 
-0. Make **a fresh copy** of the Module 04 notebook.
-
-1. Look at the distribution of `growth_future_30d` and `is_positive_growth_30d_future`. You’ll see that the median for  `growth_future_30d` is around 1.021 (2.1%), and the top 25% starts at about 1.085 (8.5%). The current version of `is_positive_growth_30d_future` has about 60% of records labeled as class 1 (when defined as 1 when `growth_future_30d`>1)
-
-2. Redefine `is_positive_growth_30d_future` to equal 1, if `growth_future_30d > 1.022`; otherwise, 0. This definition will be used for all future predictions. With this new version, only about 50% of records will be labeled as class 1 (down from 60%).
-
-3. Run the notebook again using this revised target. Threshold-based rules may not perform as well, so check which predictor now delivers the best financial result (CAGR)—it is likely to be  `pred5_clf_10`. It will have a similar CAGR, but fewer trades per day, since we're now targeting predicted growth above 2.2% instead of above 0%.
-
-**Write down the number of trades for the best predictor `pred5_clf_10`**
+**Answer:** 
+1. **Market and scope.** Cryptocurrencies (specifically BTC) vs. Traditional Assets (S&P 500, Gold). Investment horizon: Short-to-medium term (days to weeks).
+2. **Investment thesis.** Cryptocurrencies often behave as high-beta assets that correlate strongly with tech-heavy indices (like the S&P 500) during bullish cycles but show divergent, often reactive, behavior during macroeconomic shocks.
+3. **Potential edge.** Many market participants treat cryptocurrencies as isolated assets; exploiting cross-asset linkages during market stress can reveal predictive behavior that is ignored by crypto-exclusive models.
+4. **Data and sources.** Historical OHLCV data for BTC, S&P 500 (SPY), and Gold (GLD) via `yfinance`.
+5. **Research approach.** Train a Random Forest classifier to predict the direction of BTC price movements using lagged growth indicators of SPY and GLD.
+6. **Validation and risks.** Benchmark against a simple trend-following strategy for BTC. Risks: Crypto-specific events (e.g., regulatory changes, exchange failures) may decouple the correlation unpredictably.
 
 ---
-### Question 4:  [EXPLORATORY] Describe Your Ideal Trading Strategy
-**Briefly describe your ideal strategy**
 
-So far, we’ve only used one simple rule: “Invest $100 in each positive prediction.” Now it’s your turn to design a better strategy.
+### Question 2: [Exploratory] Research Idea Number Two
 
-Use what you’ve learned and be creative. You can use predictions from one model or combine predictions from several models or different thresholds from the same model.
+**Propose one well-reasoned stock research idea using the structure above.**
 
-For example, you might say: *“Take the 3 best predictions with a threshold above 0.7 and invest all my available money equally in them.”*
-
-Think about how you would decide which predictions to use, how much to invest, how to reduce the number of trades, and how to manage risk.
-
-Write a few clear sentences describing your strategy and how you would implement it.
+**Answer:** 
+1. **Market and scope.** Energy Sector (XLE) within the S&P 500. Investment horizon: Short-term (7-30 days).
+2. **Investment thesis.** Stocks within the same sector exhibit momentum clustering due to thematic capital flows (e.g., energy price trends), which creates short-term price inefficiencies.
+3. **Potential edge.** Traditional models often focus on broad market indices; focusing on sector-specific momentum is more reactive to sector-specific catalysts.
+4. **Data and sources.** OHLCV data for sector-specific ETFs (XLE) and their constituent stocks via `yfinance`.
+5. **Research approach.** Develop a machine learning classifier to predict whether a stock will outperform its sector index over the next 30 days based on recent relative growth and volume.
+6. **Validation and risks.** Compare performance against a simple buy-and-hold strategy for the sector ETF. Risks: Over-concentration in a highly volatile sector.
 
 ---
+
+### Question 3: [Exploratory] Research Idea Number Three
+
+**Propose one well-reasoned stock research idea using the structure above.**
+
+**Answer:** 
+1. **Market and scope.** Energy-intensive industrial stocks vs. Oil (WTI). Investment horizon: Medium-term (30-90 days).
+2. **Investment thesis.** Companies with high energy intensity in their production costs exhibit predictable, lagged reactions to sustained changes in oil prices.
+3. **Potential edge.** Market reaction to commodity price changes is often inefficient, creating a delayed trade opportunity that can be captured by models looking for lagged correlations.
+4. **Data and sources.** Historical oil prices (WTI) and price data for energy-intensive industrial stocks via `yfinance`.
+5. **Research approach.** Use lagged oil price growth (30d, 90d) as a feature in a Random Forest model to predict the probability of positive future growth for industrial stocks.
+6. **Validation and risks.** Compare performance against broad industrial sector performance. Risks: Changes in corporate hedging practices could neutralize the impact of oil price changes on firm growth.
+
+---
+
+**Before submitting:** Check that each idea has a clear thesis, identifiable data, a feasible first test, and a reason it might fail. Your goal is to propose three worthwhile investigations; you do not need to claim that they will be profitable.
+
 ## Submitting the solutions
 
-Form for submitting: https://courses.datatalks.club/sma-zoomcamp-2026/homework/hw04
+Form for submitting: https://courses.datatalks.club/sma-zoomcamp-2026/homework/hw05
 
 ---
+
 ## Leaderboard
 
 Leaderboard link: https://courses.datatalks.club/sma-zoomcamp-2026/leaderboard
